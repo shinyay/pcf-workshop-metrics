@@ -197,16 +197,74 @@ API がファイルの処理を完了するのを待機しています...
 
 ### Pivotal Cloud Foundry Metrics の利用
 #### 高トランザクションの発生
+負荷ツールからアプリケーションにアクセスし、その時の PCF Metrics の状況を確認します。
+
 ##### 負荷ツールの導入
 [Apps Manager](https://console.run.pivotal.io) から **Marketplace** を利用して、
 **Load Impact** という負荷ツールを導入します。
 
-Marketplace から Load Impact を見つけ、選択します。
+Marketplace から Load Impact を見つけて選択します。
 
 ![marketplace](images/marketplace.png)
 
+プランでは、**Free** を選択し、**SELECT THIS PLAN** をクリックします。
 
+![marketplace-load](images/loadimpact-marketplace.png)
 
+作成する Load Impact の適当なインスタンス名を入力します。
+この例では、`perf` とつけています。
+
+![marketplace-name](images/loadimpact-name.png)
+
+Load Impact のインスタンスが作成されると、**Services** タブの画面に表示されます。
+次に、作成された **Load Impact** をクリックします。
+
+![succeed](images/loadimpact-succeed.png)
+
+メニューにある **Manage** をクリックします。
+
+![manage](images/loadimpact-detail.png)
+
+##### 負荷テストの作成と実施
+Load Impact の画面に遷移します。
+**CREATE NEW TEST** をクリックし、テストを作成していきます。
+
+![menu](images/loadimpact-menu.png)
+
+表示されているテキストフィールドにアプリケーションのURLを入力します。
+そして、**CREATE URL SCENARIO** をクリックしテストを作成します。
+ここで作成するシナリオは、指定したURLに対してアクセスするシンプルな内容です。
+
+![create](images/loadimpact-createtest.png)
+
+**RUN TEST** をクリックし、テストシナリオを実行します。
+
+![run](images/loadimpact-runtest.png)
+
+テストの実行中に進捗が表示されます。
+
+![testing](images/loadimpact-testing.png)
+
+テストシナリオを流しおわると、クライアントサイドでのレポートが表示されます。
+
+![finished](images/loadimpact-finished.png)
+
+##### PCF Metrics での確認
+リクエスト数やシステムリソースの使用状況が突発的に増えているのが確認できます。
+ただし、この結果からは正常に処理できる規模である事が確認できます。
+
+![metrics](images/metrics-result.png)
+
+#### インスタンス障害
+インスタンス数を `2` に増やした状態で、先の負荷ツールからリクエストを投げ続けている最中に片方のインスタンスを止めてみます。
+その時の状況を確認します。
+
+##### インスタンスのスケールアウト
+インスタンス数を 2 に増やすには、以下のコマンドを使用します。
+
+```
+$ cf scale spring-music -i 2
+```
 
 
 ## まとめ / 振り返り
