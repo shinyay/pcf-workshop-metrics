@@ -266,5 +266,30 @@ Load Impact の画面に遷移します。
 $ cf scale spring-music -i 2
 ```
 
+![scaleout](images/scaleout.png)
+
+
+##### 複数のインスタンスのメトリクス表示
+PCF Metrics に増えた分のインスタンスの情報を表示する事ができるようになりました。
+![multiinstances](images/multiinstance.png)
+
+##### Spring Actuator による Shutdown
+デプロイしている spring-music は、Spring Actuator で実行できる Shutdown を有効化にしています。
+そのため、以下のコマンドで強制的にインスタンスをダウンする事ができます。
+
+```
+$ curl -X POST https://<アプリケーションURL>/actuator/shutdown --insecure
+```
+
+Apps Manager 上で、イベントを見てみると、アプリケーションのクラッシュが検知されています。
+また、クラッシュしたインスタンスの代わりに、新しくインスタンスを開始している事が確認できます。
+
+![crached](images/crashed.png)
+
+##### PCF Metrics での確認
+インスタンス障害を発生させた後に、新規でインスタンスを開始し始めるのため一時的にCPU負荷があがっています。
+一方で、リクエストエラーは発生していないので今回のトランザクション量ではインスタンス障害時も正常稼動していた事が確認できます。
+
+![metrics-crached](images/metrics-crached.png)
 
 ## まとめ / 振り返り
