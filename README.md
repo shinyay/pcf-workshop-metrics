@@ -29,7 +29,33 @@ Pivotal Cloud Foundry Metricsは、次の情報を表示します。
   - アプリケーションとエンドポイント間のリクエストを、対応するログと共にトレースするグラフ
 
 ## 前提 / 環境
+- [事前作業](https://github.com/shinyay/pcf-workshop-prerequisite/blob/master/README.md)
 
 ## 手順 / 解説
+### アプリケーションの準備
+モニタリングする対象のアプリケーションを作成し、Pivotal Cloud Foundry にデプロイを行います。
+
+#### プロジェクトの作成
+GitHub 上に作成済みのプロジェクトをクローン(git clone)しプロジェクトを作成します。
+
+- https://github.com/shinyay/spring-music.git
+
+任意のディレクトリで、以下のコマンドを実行します。
+
+```
+$ mkdir pcf-workshop
+$ cd pcf-workshop
+$ git clone https://github.com/shinyay/spring-music.git hello-pcf-metrics
+$ cd hello-pcf-metrics
+```
+
+#### アプリケーションのビルド
+クローンしてきたアプリケーションは、**Gradle** でビルドを行うように構成されています。
+
+アプリケーションのビルドは、以下のコマンドを使用します。
+
+```
+$ ./gradlew clean assemble
+```
 
 ## まとめ / 振り返り
